@@ -12,6 +12,7 @@ class SavedGifsViewController: UIViewController,UICollectionViewDataSource,UICol
 
     var gifs=[Gif]()
     
+    @IBOutlet weak var fullStackView: UIStackView!
     var gifsFilePath: String {
         let directories = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
         let documentsPath = directories[0]
@@ -19,29 +20,30 @@ class SavedGifsViewController: UIViewController,UICollectionViewDataSource,UICol
         return gifsPath
     }
     
-    @IBOutlet weak var subView: UIView!
+    
     let cellMargin:CGFloat=12.0
     
     @IBOutlet weak var myCollectionView: UICollectionView!
     
-    @IBOutlet weak var myCollectionVIew: UICollectionView!
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        myCollectionVIew.reloadData()
+        myCollectionView.reloadData()
+     // self.gifs = NSKeyedUnarchiver.unarchiveObjectWithFile(gifsFilePath) as! [Gif]
         if gifs.count==0
         {
-        subView.hidden=false
+        fullStackView.hidden=false
         }
         else
         {
-        subView.hidden=true
+        fullStackView.hidden=true
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSKeyedUnarchiver.unarchiveObjectWithFile(gifsFilePath)
+       
         showWelcome()
     }
     
@@ -55,7 +57,7 @@ class SavedGifsViewController: UIViewController,UICollectionViewDataSource,UICol
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let collectionViewCell=myCollectionVIew.dequeueReusableCellWithReuseIdentifier("CellId", forIndexPath: indexPath) as! CollectionViewCell
+        let collectionViewCell=myCollectionView.dequeueReusableCellWithReuseIdentifier("CellId", forIndexPath: indexPath) as! CollectionViewCell
         
         collectionViewCell.imageView.image=gifs[indexPath.row].gifImage
         
@@ -94,6 +96,10 @@ class SavedGifsViewController: UIViewController,UICollectionViewDataSource,UICol
     {
         let welcomeVC=storyboard?.instantiateViewControllerWithIdentifier("WelcomeViewController")
         self.navigationController?.pushViewController(welcomeVC!, animated: true)
+        }
+        else
+    {
+        self.gifs = NSKeyedUnarchiver.unarchiveObjectWithFile(gifsFilePath) as! [Gif]
         }
     
     }
