@@ -12,6 +12,6 @@ iOS application which  allows the user to record a video from the camera or fetc
 
 ## Setup
 
-GIFMaker should run without any additional setup.
+GIFMaker should run without any additional setup. 
 
 
